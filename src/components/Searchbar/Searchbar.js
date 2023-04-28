@@ -1,14 +1,22 @@
-import { ButtonSearch, SearchForm } from './Searchbar.styled';
+import {
+  ButtonSearch,
+  InputSearch,
+  LabelBtn,
+  SearchForm,
+  SearchbarCont,
+} from './Searchbar.styled';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 export const Searchbar = () => {
   return (
-    <Searchbar>
+    <SearchbarCont>
       <SearchForm>
         <ButtonSearch type="submit">
-          <span className="button-label">Search</span>
+          <AiOutlineSearch size={48} />
+          <LabelBtn>Search</LabelBtn>
         </ButtonSearch>
 
-        <input
+        <InputSearch
           className="input"
           type="text"
           autoComplete="off"
@@ -16,6 +24,6 @@ export const Searchbar = () => {
           placeholder="Search images and photos"
         />
       </SearchForm>
-    </Searchbar>
+    </SearchbarCont>
   );
 };
