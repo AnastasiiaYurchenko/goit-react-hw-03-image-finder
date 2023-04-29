@@ -5,6 +5,7 @@ export const Modal = () => {
     <Overlay>
       <ModalContent>
         <img src="" alt="" />
+        <p>Hello, I'm modal</p>
       </ModalContent>
     </Overlay>
   );
