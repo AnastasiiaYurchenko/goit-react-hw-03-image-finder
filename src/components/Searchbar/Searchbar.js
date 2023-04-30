@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import {
   ButtonSearch,
   InputSearch,
@@ -7,23 +8,45 @@ import {
 } from './Searchbar.styled';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-export const Searchbar = () => {
-  return (
-    <SearchbarCont>
-      <SearchForm>
-        <ButtonSearch type="submit">
-          <AiOutlineSearch size={48} />
-          <LabelBtn>Search</LabelBtn>
-        </ButtonSearch>
+export class Searchbar extends Component {
+  state = {
+    searchName: '',
+  };
 
-        <InputSearch
-          className="input"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </SearchForm>
-    </SearchbarCont>
-  );
-};
+  handleSearchNameChange = e => {
+    this.setState({ searchName: e.currentTarget.value.toLowerCase() });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    if (this.state.searchName.trim() === '') {
+      return alert('Enter image name or photo name');
+    }
+
+    this.props.onSearch(this.state.searchName);
+    this.setState({ searchName: '' });
+  };
+
+  render() {
+    return (
+      <SearchbarCont>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <ButtonSearch type="submit">
+            <AiOutlineSearch size={48} />
+            <LabelBtn>Search</LabelBtn>
+          </ButtonSearch>
+
+          <InputSearch
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={this.state.searchName}
+            onChange={this.handleSearchNameChange}
+          />
+        </SearchForm>
+      </SearchbarCont>
+    );
+  }
+}
