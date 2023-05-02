@@ -8,6 +8,9 @@ export const Loader = () => {
       animationDuration="0.75"
       width="96"
       visible={true}
+      marginLeft="auto"
+      marginRight="auto"
+      display="block"
     />
   );
 };

@@ -14,7 +14,7 @@ export const ERROR_MSG = 'Something went wrong, please try again';
 export class App extends Component {
   state = {
     searchName: '',
-    pictures: null,
+    pictures: [],
     loading: false,
     error: null,
     page: 1,
@@ -22,7 +22,7 @@ export class App extends Component {
 
   handleFormSearch = searchName => {
     console.log(searchName);
-    this.setState({ searchName, page: 1 });
+    this.setState({ searchName, page: 1, pictures: [] });
   };
 
   // async componentDidMount() {
@@ -50,29 +50,10 @@ export class App extends Component {
   // }
 
   async componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchName !== this.state.searchName) {
-      console.log('Change name');
-      console.log(prevState.searchName);
-      console.log(this.state.searchName);
-      console.log(this.state.pictures);
-
-      this.setState({ loading: true });
-
-      try {
-        const fetchedPictures = await axios.get(
-          `https://pixabay.com/api/?q=${this.state.searchName}&page=${this.state.page}&key=34416785-706900f4c4344fdefb158122c&image_type=photo&orientation=horizontal&per_page=12`
-        );
-        console.log(fetchedPictures);
-
-        this.setState({ pictures: fetchedPictures.data.hits });
-      } catch (error) {
-        this.setState({ error: ERROR_MSG });
-      } finally {
-        this.setState({ loading: false });
-      }
-    }
-
-    if (prevState.page !== this.state.page) {
+    if (
+      prevState.searchName !== this.state.searchName ||
+      prevState.page !== this.state.page
+    ) {
       this.setState({ loading: true });
 
       try {
@@ -95,13 +76,7 @@ export class App extends Component {
 
   handleLoadMore = e => {
     const { page } = this.state;
-
-    this.setState(prevState => {
-      return {
-        page: prevState.page + 1,
-      };
-    });
-    console.log(page);
+    this.setState({ page: page + 1 });
   };
 
   render() {
@@ -109,11 +84,12 @@ export class App extends Component {
     return (
       <Layout>
         <Searchbar onSearch={this.handleFormSearch} />
-        {loading && <Loader />}
+
         {error && <h1>{this.state.error} </h1>}
         {pictures && (
           <ImageGallery searchName={searchName} pictures={pictures} />
         )}
+        {loading && <Loader />}
 
         {pictures && pictures.length > 0 && (
           <Button onClick={this.handleLoadMore} />
