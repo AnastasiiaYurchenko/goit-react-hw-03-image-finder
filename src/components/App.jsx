@@ -5,7 +5,9 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { Component } from 'react';
 import { Loader } from './Loader/Loader';
-import { fetchPictures } from 'api';
+// import { fetchPictures } from 'api';
+import axios from 'axios';
+// import axios from 'axios';
 
 export const ERROR_MSG = 'Something went wrong, please try again';
 
@@ -15,11 +17,12 @@ export class App extends Component {
     pictures: null,
     loading: false,
     error: null,
+    page: 1,
   };
 
   handleFormSearch = searchName => {
     console.log(searchName);
-    this.setState({ searchName });
+    this.setState({ searchName, page: 1 });
   };
 
   // async componentDidMount() {
@@ -52,10 +55,36 @@ export class App extends Component {
       console.log(prevState.searchName);
       console.log(this.state.searchName);
       console.log(this.state.pictures);
-      try {
-        const fetchedPictures = await fetchPictures();
 
-        this.setState({ pictures: fetchedPictures.hits });
+      this.setState({ loading: true });
+
+      try {
+        const fetchedPictures = await axios.get(
+          `https://pixabay.com/api/?q=${this.state.searchName}&page=${this.state.page}&key=34416785-706900f4c4344fdefb158122c&image_type=photo&orientation=horizontal&per_page=12`
+        );
+        console.log(fetchedPictures);
+
+        this.setState({ pictures: fetchedPictures.data.hits });
+      } catch (error) {
+        this.setState({ error: ERROR_MSG });
+      } finally {
+        this.setState({ loading: false });
+      }
+    }
+
+    if (prevState.page !== this.state.page) {
+      this.setState({ loading: true });
+
+      try {
+        const fetchedPictures = await axios.get(
+          `https://pixabay.com/api/?q=${this.state.searchName}&page=${this.state.page}&key=34416785-706900f4c4344fdefb158122c&image_type=photo&orientation=horizontal&per_page=12`
+        );
+
+        this.setState(prevState => {
+          return {
+            pictures: [...prevState.pictures, ...fetchedPictures.data.hits],
+          };
+        });
       } catch (error) {
         this.setState({ error: ERROR_MSG });
       } finally {
@@ -64,22 +93,31 @@ export class App extends Component {
     }
   }
 
+  handleLoadMore = e => {
+    const { page } = this.state;
+
+    this.setState(prevState => {
+      return {
+        page: prevState.page + 1,
+      };
+    });
+    console.log(page);
+  };
+
   render() {
+    const { loading, error, pictures, searchName } = this.state;
     return (
       <Layout>
         <Searchbar onSearch={this.handleFormSearch} />
-        {this.state.loading && <Loader />}
-        {this.state.error && <h1>{this.state.error} </h1>}
-        {/* {this.state.pictures && ( */}
-        <ImageGallery
-          searchName={this.state.searchName}
-          pictures={this.state.pictures}
-        />
-        {/* )} */}
+        {loading && <Loader />}
+        {error && <h1>{this.state.error} </h1>}
+        {pictures && (
+          <ImageGallery searchName={searchName} pictures={pictures} />
+        )}
 
-        {/* <Modal /> */}
-
-        {this.state.pictures && <Button />}
+        {pictures && pictures.length > 0 && (
+          <Button onClick={this.handleLoadMore} />
+        )}
       </Layout>
     );
   }
