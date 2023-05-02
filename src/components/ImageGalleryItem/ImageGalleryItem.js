@@ -16,6 +16,14 @@ export class ImageGalleryItem extends Component {
     this.setState({ selectedImage: null });
   };
 
+  // handleBackdrop = e => {
+  //   console.log(e.currentTarget);
+  //   console.log(e.target);
+  //   if (e.currentTarget !== e.target) {
+  //     this.closeModal();
+  //   }
+  // };
+
   render() {
     const { selectedImage } = this.state;
     const { picture } = this.props;
@@ -31,6 +39,7 @@ export class ImageGalleryItem extends Component {
             image={selectedImage}
             isOpen={selectedImage !== null}
             onClose={this.closeModal}
+            // onBackdrop={this.handleBackdrop}
           />
         )}
       </GalleryItem>
