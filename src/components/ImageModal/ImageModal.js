@@ -14,6 +14,7 @@ const customStyles = {
     maxWidth: 'calc(100vw - 48px)',
     maxHeight: 'calc(100vh - 24px)',
     overflow: 'visible',
+    border: 'none',
   },
   overlay: { backgroundColor: 'rgba(0, 0, 0, 0.8)' },
 };
