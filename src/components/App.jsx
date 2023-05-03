@@ -1,13 +1,10 @@
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Layout } from './Layout/Layout.styled';
-// import { Modal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { Component } from 'react';
 import { Loader } from './Loader/Loader';
-// import { fetchPictures } from 'api';
 import axios from 'axios';
-// import axios from 'axios';
 
 export const ERROR_MSG = 'Something went wrong, please try again';
 
