@@ -1,8 +1,6 @@
+import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ListGallery } from './ImageGallery.styled';
-// import { Component } from 'react';
-// import { fetchPictures } from 'api';
-// import { ERROR_MSG } from 'components/App';
 
 export const ImageGallery = ({ pictures }) => {
   return (
@@ -13,4 +11,16 @@ export const ImageGallery = ({ pictures }) => {
         })}
     </ListGallery>
   );
+};
+
+ImageGallery.propTypes = {
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  searchName: PropTypes.string,
 };

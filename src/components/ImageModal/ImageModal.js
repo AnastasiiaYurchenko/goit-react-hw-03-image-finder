@@ -1,42 +1,30 @@
+import PropTypes from 'prop-types';
 import { ModalContent } from './ImageModal.styled';
 import Modal from 'react-modal';
-// import { Image } from '../ImageGalleryItem/ImageGalleryItem.styled';
 
 const customStyles = {
   content: {
-    // top: '50%',
-    // left: '50%',
-    // right: 'auto',
-    // bottom: 'auto',
-    // marginRight: '-50%',
-    // transform: 'translate(-50%, -50%)',
-
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    zIndex: '1200',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    padding: '0',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: 'calc(100vw - 48px)',
+    maxHeight: 'calc(100vh - 24px)',
+    overflow: 'visible',
   },
+  overlay: { backgroundColor: 'rgba(0, 0, 0, 0.8)' },
 };
 
 Modal.setAppElement('#root');
 
-export const ImageModal = ({
-  image,
-  isOpen,
-  onClose,
-  // , onBackdrop
-}) => {
+export const ImageModal = ({ image, isOpen, onClose }) => {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      // onBackdrop={onBackdrop}
       style={customStyles}
       contentLabel="Example Modal"
     >
@@ -45,4 +33,10 @@ export const ImageModal = ({
       </ModalContent>
     </Modal>
   );
+};
+
+ImageModal.propTypes = {
+  image: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };

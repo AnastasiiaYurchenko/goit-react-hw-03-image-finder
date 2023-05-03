@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import {
   ButtonSearch,
@@ -9,6 +10,10 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai';
 
 export class Searchbar extends Component {
+  static propTypes = {
+    onSearch: PropTypes.func.isRequired,
+  };
+
   state = {
     searchName: '',
   };
